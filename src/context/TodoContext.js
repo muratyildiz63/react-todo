@@ -21,23 +21,28 @@ export const TodoProvider = ({ children }) => {
       { id: uuidv4(), text: text, completed: false },
     ]);
 
-const complutedChange=(id)=>{
-  
-    const cloned_todo=[...todo]
-    const todoIndex=cloned_todo.findIndex(todo=>todo.id===id)
-    const item=cloned_todo[todoIndex]
-   item.completed= !item.completed
-   
-   setTodo(cloned_todo)
-    console.log(item)
-}
+    
+  const complutedChange = (id) => {
+    const cloned_todo = [...todo];
+    const todoIndex = cloned_todo.findIndex((todo) => todo.id === id);
+    const item = cloned_todo[todoIndex];
+    item.completed = !item.completed;
+    setTodo(cloned_todo);
+  };
+  const todoDelete = (id) => {
+    const cloned_todo = [...todo];
+    const todoIndex = cloned_todo.findIndex((todo) => todo.id === id);
+  cloned_todo.splice(todoIndex,1)
 
+    setTodo(cloned_todo);
+  };
 
   const values = {
     todo,
     setTodo,
     addTodo,
-    complutedChange
+    complutedChange,
+    todoDelete,
   };
 
   return (

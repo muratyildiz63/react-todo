@@ -2,7 +2,7 @@ import React from "react";
 import { useTodo } from "../../../context/TodoContext";
 
 function Item({ TodoItem }) {
-const {complutedChange}=useTodo()
+const {complutedChange,todoDelete}=useTodo()
   return (
     <li className={TodoItem.completed ? "completed" : ""} key={TodoItem.id}>
       <div className="view">
@@ -13,7 +13,7 @@ const {complutedChange}=useTodo()
           onChange={()=>complutedChange(TodoItem.id)}
         />
         <label>{TodoItem.text}</label>
-        <button className="destroy"></button>
+        <button className="destroy" onClick={()=>todoDelete(TodoItem.id)}></button>
       </div>
     </li>
   );
