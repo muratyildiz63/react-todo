@@ -1,27 +1,23 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 const TodoContext = createContext();
 
+const todoLocalStorage = JSON.parse(localStorage.getItem('todo')) || []; 
+
 export const TodoProvider = ({ children }) => {
-  const [todo, setTodo] = useState([
-    {
-      id: 1,
-      text: "Kahvaltı",
-      completed: false,
-    },
-    {
-      id: 2,
-      text: "Yemek",
-      completed: true,
-    },
-  ]);
+  const [filter, setfilter] = useState("all");
+  const [todo, setTodo] = useState(todoLocalStorage);
+
+  useEffect(() => {
+    localStorage.setItem("todo", JSON.stringify(todo));
+  }, [todo]);
+
   const addTodo = (text) =>
     setTodo((prev) => [
       ...prev,
       { id: uuidv4(), text: text, completed: false },
     ]);
 
-    
   const complutedChange = (id) => {
     const cloned_todo = [...todo];
     const todoIndex = cloned_todo.findIndex((todo) => todo.id === id);
@@ -32,7 +28,7 @@ export const TodoProvider = ({ children }) => {
   const todoDelete = (id) => {
     const cloned_todo = [...todo];
     const todoIndex = cloned_todo.findIndex((todo) => todo.id === id);
-  cloned_todo.splice(todoIndex,1)
+    cloned_todo.splice(todoIndex, 1);
 
     setTodo(cloned_todo);
   };
@@ -43,6 +39,8 @@ export const TodoProvider = ({ children }) => {
     addTodo,
     complutedChange,
     todoDelete,
+    setfilter,
+    filter,
   };
 
   return (
